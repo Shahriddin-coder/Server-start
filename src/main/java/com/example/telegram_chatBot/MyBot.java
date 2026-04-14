@@ -18,6 +18,7 @@ public class MyBot extends TelegramLongPollingBot {
     @Value("${TELEGRAM.BOT.TOKEN}")
     private String token;
 
+
     public MyBot(AIService aiService) {
         this.aiService = aiService;
     }
