@@ -7,6 +7,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
 public class MyBot extends TelegramLongPollingBot {
 
@@ -18,7 +21,9 @@ public class MyBot extends TelegramLongPollingBot {
     @Value("${TELEGRAM_BOT_TOKEN}")
     private String token;
 
-    private final String kanalId = "3959906209";
+    private final String kanalId = "-1003959906209";
+
+    private final Set<Long> users = new HashSet<>();
 
     public MyBot(AIService aiService) {
         this.aiService = aiService;
@@ -30,27 +35,37 @@ public class MyBot extends TelegramLongPollingBot {
         String message = update.getMessage().getText();
         Long chatId = update.getMessage().getChatId();
         if (update.hasMessage() && update.getMessage().hasText()) {
+
             if (message.equals("/start")) {
                 sendMessage.setText("ChatBot ga xush kelibsiz😀");
                 sendMessage.setChatId(chatId);
 
-                String firstName = update.getMessage().getFrom().getFirstName();
-                String lastName = update.getMessage().getFrom().getLastName();
                 Long userId = update.getMessage().getFrom().getId();
-                SendMessage sendMessage1 = new SendMessage();
 
-                String userInfo = "🆕 Yangi user:\n" +
-                        "👤 Ism: " + firstName + "\n" +
-                        "👤 Familiya: " + lastName + "\n" +
-                        "🔗 Username: @" + username + "\n" +
-                        "🆔 ID: " + userId;
+                if (!users.contains(userId)) {
+                    users.add(userId);
 
-                sendMessage1.setText(userInfo);
-                sendMessage1.setChatId(kanalId);
-                try {
-                    execute(sendMessage1);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
+                    String firstName = update.getMessage().getFrom().getFirstName();
+                    String lastName = update.getMessage().getFrom().getLastName();
+                    String usernameUser = update.getMessage().getFrom().getUserName();
+
+                    if (usernameUser == null) usernameUser = "yo‘q";
+
+                    String userInfo = "🆕 Yangi user:\n" +
+                            "👤 Ism: " + firstName + "\n" +
+                            "👤 Familiya: " + lastName + "\n" +
+                            "🔗 Username: @" + usernameUser + "\n" +
+                            "🆔 ID: " + userId;
+
+                    SendMessage channelMsg = new SendMessage();
+                    channelMsg.setChatId(kanalId);
+                    channelMsg.setText(userInfo);
+
+                    try {
+                        execute(channelMsg);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             } else {
