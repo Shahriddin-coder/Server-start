@@ -69,7 +69,6 @@ public class AIService {
                     return content.get(0).path("text").asText("Javob topilmadi");
                 }
             }
-
             return "Javob topilmadi";
 
         } catch (Exception e) {
