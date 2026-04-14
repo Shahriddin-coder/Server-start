@@ -15,10 +15,10 @@ public class MyBot extends TelegramLongPollingBot {
 
     private final AIService aiService;
 
-    @Value("${TELEGRAM_BOT_USERNAME}")
+    @Value("${TELEGRAM.BOT.USERNAME}")
     private String username;
 
-    @Value("${TELEGRAM_BOT_TOKEN}")
+    @Value("${TELEGRAM.BOT.TOKEN}")
     private String token;
 
     private final String kanalId = "-1003959906209";
