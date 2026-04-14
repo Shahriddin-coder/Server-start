@@ -19,6 +19,7 @@ public class AIService {
     @Value("${OPENAI_API_KEY}")
     private String apiKey;
 
+
     private final RestTemplate restTemplate = new RestTemplate();
     private final com.fasterxml.jackson.databind.ObjectMapper objectMapper = new ObjectMapper();
 
