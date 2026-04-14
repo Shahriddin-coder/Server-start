@@ -16,7 +16,7 @@ import java.lang.Exception;
 @Service
 public class AIService {
 
-    @Value("${openai.api.key}")
+    @Value("${OPENAI_API_KEY}")
     private String apiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
